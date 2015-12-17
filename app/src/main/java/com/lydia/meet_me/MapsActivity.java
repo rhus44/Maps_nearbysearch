@@ -460,11 +460,12 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
             ImageButton street = (ImageButton) findViewById(R.id.streetview);
             if(bs!= -1776674) {
                 Log.d("bitmapSize", Integer.toString(bs));
-
+                street.setVisibility(View.VISIBLE);
                 street.setImageBitmap(bitmap);
             }
             else{
                 street.setImageBitmap(null);
+                street.setVisibility(View.INVISIBLE);
             }
         }
     }

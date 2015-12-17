@@ -89,7 +89,13 @@ public class DownloadFiles extends AsyncTask<Double, Void, String> {
                 status="whut";
                 status = resultObject.getString("status");
                 Log.d("ASDFG",status);
-                rad+=10000;
+
+                if(rad>50000){
+                    rad=rad*2;
+                }
+                else{
+                    rad+=10000;
+                }
 
                 //try to fetch the data
             } catch (Exception e) {
@@ -144,6 +150,7 @@ public class DownloadFiles extends AsyncTask<Double, Void, String> {
                     JSONObject loc = placeObject.getJSONObject("geometry").getJSONObject("location");
                     JSONArray types = placeObject.getJSONArray("types");
                     for(int t=0; t<types.length(); t++){
+                        Log.d("ASDFGH",types.get(t).toString());
                         String thisType=types.get(t).toString();
                         if(thisType.contains("bar")){
                             currIcon = R.mipmap.ic_archer;
@@ -167,9 +174,13 @@ public class DownloadFiles extends AsyncTask<Double, Void, String> {
                     placeLL = new LatLng(
                             Double.valueOf(loc.getString("lat")),
                             Double.valueOf(loc.getString("lng")));
-                    vicinity = placeObject.getString("vicinity");
-                    placeName = placeObject.getString("name");
+                    Log.d("ASDFG","Location"+loc.getString("lat"));
+                    if(placeObject.has("vicinity")) {
+                       vicinity = placeObject.getString("vicinity");
+                    }
 
+                    placeName = placeObject.getString("name");
+                    Log.d("Baumps",vicinity);
                     Log.d("BAUMP",placeName);
                 } catch (JSONException jse) {
                     missingValue = true;
@@ -202,8 +213,10 @@ public class DownloadFiles extends AsyncTask<Double, Void, String> {
                     x=p;
                 }
             }
-            myMainActivity.mMap.moveCamera(CameraUpdateFactory.newLatLng(places[x].getPosition()));
+            if(places[0]!=null){
+            myMainActivity.mMap.moveCamera(CameraUpdateFactory.newLatLng(places[0].getPosition()));
             myMainActivity.mMap.moveCamera(CameraUpdateFactory.zoomOut());
+        }
         }
 
 
